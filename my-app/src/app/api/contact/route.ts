@@ -1,49 +1,42 @@
 import { NextResponse } from "next/server";
-import { Resend } from "resend";
+import * as nodemailer from "nodemailer";
 
-/**
- * IMPORTANT:
- * Resend Edge runtime support nahi karta
- * is liye Node.js runtime force karna zaroori hai
- */
 export const runtime = "nodejs";
 
 export async function POST(req: Request) {
   try {
-    // 🔑 ENV VARIABLES
-    const apiKey = process.env.RESEND_API_KEY;
-    const contactEmail = process.env.CONTACT_EMAIL;
-
-    if (!apiKey || !contactEmail) {
-      return NextResponse.json(
-        { error: "Server configuration error" },
-        { status: 500 }
-      );
-    }
-
-    // 📧 Resend client
-    const resend = new Resend(apiKey);
-
-    // 📩 Request body
     const { name, email, message } = await req.json();
 
-    if (
-      typeof name !== "string" ||
-      typeof email !== "string" ||
-      typeof message !== "string"
-    ) {
+    if (!name || !email || !message) {
       return NextResponse.json(
-        { error: "Invalid form data" },
+        { error: "Missing fields" },
         { status: 400 }
       );
     }
 
-    // ✅ SINGLE, SAFE EMAIL (production friendly)
-    await resend.emails.send({
-      from: `Portfolio <${contactEmail}>`,
-      to: contactEmail,
-      subject: `New Contact Message from ${name}`,
-      replyTo: `${name} <${email}>`,
+    const user = process.env.GMAIL_USER;
+    const pass = process.env.GMAIL_APP_PASSWORD;
+
+    if (!user || !pass) {
+      return NextResponse.json(
+        { error: "Email config missing" },
+        { status: 500 }
+      );
+    }
+
+    const transporter = nodemailer.createTransport({
+      service: "gmail",
+      auth: {
+        user,
+        pass,
+      },
+    });
+
+    await transporter.sendMail({
+      from: `"Portfolio Contact" <${user}>`,
+      to: user,
+      replyTo: email,
+      subject: `New message from ${name}`,
       html: `
         <h2>New Contact Message</h2>
         <p><strong>Name:</strong> ${name}</p>
@@ -55,15 +48,10 @@ export async function POST(req: Request) {
 
     return NextResponse.json({ success: true });
   } catch (error) {
-    console.error("CONTACT API ERROR 👉", error);
+    console.error("MAIL ERROR 👉", error);
 
     return NextResponse.json(
-      {
-        error:
-          error instanceof Error
-            ? error.message
-            : "Unknown server error",
-      },
+      { error: "Failed to send email" },
       { status: 500 }
     );
   }
