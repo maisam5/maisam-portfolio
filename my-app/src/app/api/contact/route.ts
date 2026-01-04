@@ -1,57 +1,42 @@
+import { Resend } from "resend";
 import { NextResponse } from "next/server";
-import * as nodemailer from "nodemailer";
 
-export const runtime = "nodejs";
+const resend = new Resend(process.env.RESEND_API_KEY);
 
 export async function POST(req: Request) {
   try {
     const { name, email, message } = await req.json();
 
-    if (!name || !email || !message) {
+    if (!email || !message) {
       return NextResponse.json(
-        { error: "Missing fields" },
+        { error: "Email aur message required hain" },
         { status: 400 }
       );
     }
 
-    const user = process.env.GMAIL_USER;
-    const pass = process.env.GMAIL_APP_PASSWORD;
-
-    if (!user || !pass) {
-      return NextResponse.json(
-        { error: "Email config missing" },
-        { status: 500 }
-      );
-    }
-
-    const transporter = nodemailer.createTransport({
-      service: "gmail",
-      auth: {
-        user,
-        pass,
-      },
-    });
-
-    await transporter.sendMail({
-      from: `"Portfolio Contact" <${user}>`,
-      to: user,
+    const { data, error } = await resend.emails.send({
+      from: "Portfolio <onboarding@resend.dev>",
+      to: ["dayalkhan555@gmail.com"],
       replyTo: email,
-      subject: `New message from ${name}`,
+      subject: `New Contact Message from ${name || "Visitor"}`,
       html: `
-        <h2>New Contact Message</h2>
-        <p><strong>Name:</strong> ${name}</p>
-        <p><strong>Email:</strong> ${email}</p>
-        <p><strong>Message:</strong></p>
+        <h2>New Contact Form Message</h2>
+        <p><b>Name:</b> ${name || "N/A"}</p>
+        <p><b>Email:</b> ${email}</p>
+        <p><b>Message:</b></p>
         <p>${message}</p>
       `,
     });
 
-    return NextResponse.json({ success: true });
-  } catch (error) {
-    console.error("MAIL ERROR 👉", error);
+    if (error) {
+      return NextResponse.json({ error }, { status: 400 });
+    }
 
+    return NextResponse.json({ success: true, data });
+  } catch (err) {
+    console.error("Send Email Error:", err);
     return NextResponse.json(
-      { error: "Failed to send email" },
+      { error: "Internal Server Error" },
       { status: 500 }
     );
   }
