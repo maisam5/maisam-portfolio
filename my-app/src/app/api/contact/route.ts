@@ -1,14 +1,19 @@
 import { NextResponse } from "next/server";
 import { Resend } from "resend";
 
-const resend = process.env.RESEND_API_KEY
-  ? new Resend(process.env.RESEND_API_KEY)
-  : null;
+
+export const dynamic = 'force-dynamic';
 
 export async function POST(req: Request) {
-  if (!resend) {
+  
+  const apiKey = process.env.RESEND_API_KEY;
+
+  if (!apiKey) {
+    console.error("RESEND_API_KEY is missing in environment variables");
     return NextResponse.json({ error: "API Key missing" }, { status: 500 });
   }
+
+  const resend = new Resend(apiKey);
 
   try {
     const { name, email, message } = await req.json();
@@ -17,9 +22,10 @@ export async function POST(req: Request) {
       return NextResponse.json({ error: "Missing fields" }, { status: 400 });
     }
 
+   
     await resend.emails.send({
       from: "Portfolio <onboarding@resend.dev>",
-      to: process.env.CONTACT_EMAIL as string,
+      to: process.env.CONTACT_EMAIL || "maisamabbas1272@gmail.com", 
       subject: `New Message from ${name}`,
       replyTo: email,
       html: `
@@ -30,6 +36,7 @@ export async function POST(req: Request) {
       `,
     });
 
+    
     await resend.emails.send({
       from: "Maisam Abbas <onboarding@resend.dev>",
       to: email,
@@ -46,7 +53,7 @@ export async function POST(req: Request) {
 
     return NextResponse.json({ success: true });
   } catch (err) {
+    console.error("Resend Error:", err);
     return NextResponse.json({ error: "Server error" }, { status: 500 });
   }
 }
-
