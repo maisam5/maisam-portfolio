@@ -1,11 +1,15 @@
 import { NextResponse } from "next/server";
 import { Resend } from "resend";
 
-const resend = new Resend(process.env.RESEND_API_KEY);
+const resend = process.env.RESEND_API_KEY
+  ? new Resend(process.env.RESEND_API_KEY)
+  : null;
 
-// Simple in-memory rate limit (per IP)
-const RATE_LIMIT = new Map<string, { count: number; time: number }>();
 export async function POST(req: Request) {
+  if (!resend) {
+    return NextResponse.json({ error: "API Key missing" }, { status: 500 });
+  }
+
   try {
     const { name, email, message } = await req.json();
 
@@ -41,7 +45,7 @@ export async function POST(req: Request) {
     });
 
     return NextResponse.json({ success: true });
-  } catch {
+  } catch (err) {
     return NextResponse.json({ error: "Server error" }, { status: 500 });
   }
 }
