@@ -1,9 +1,16 @@
-export const runtime = "nodejs";
 import { NextResponse } from "next/server";
 import { Resend } from "resend";
 
+/**
+ * IMPORTANT:
+ * Resend Edge runtime support nahi karta
+ * is liye Node.js runtime force karna zaroori hai
+ */
+export const runtime = "nodejs";
+
 export async function POST(req: Request) {
   try {
+    // 🔑 ENV VARIABLES
     const apiKey = process.env.RESEND_API_KEY;
     const contactEmail = process.env.CONTACT_EMAIL;
 
@@ -14,48 +21,49 @@ export async function POST(req: Request) {
       );
     }
 
+    // 📧 Resend client
     const resend = new Resend(apiKey);
+
+    // 📩 Request body
     const { name, email, message } = await req.json();
 
-    if (!name || !email || !message) {
+    if (
+      typeof name !== "string" ||
+      typeof email !== "string" ||
+      typeof message !== "string"
+    ) {
       return NextResponse.json(
-        { error: "Missing fields" },
+        { error: "Invalid form data" },
         { status: 400 }
       );
     }
 
-    // 📩 Email to YOU
+    // ✅ SINGLE, SAFE EMAIL (production friendly)
     await resend.emails.send({
       from: `Portfolio <${contactEmail}>`,
       to: contactEmail,
-      subject: `New Message from ${name}`,
-      replyTo: email,
+      subject: `New Contact Message from ${name}`,
+      replyTo: `${name} <${email}>`,
       html: `
         <h2>New Contact Message</h2>
-        <p><b>Name:</b> ${name}</p>
-        <p><b>Email:</b> ${email}</p>
+        <p><strong>Name:</strong> ${name}</p>
+        <p><strong>Email:</strong> ${email}</p>
+        <p><strong>Message:</strong></p>
         <p>${message}</p>
-      `,
-    });
-
-    // 📩 Auto-reply to USER
-    await resend.emails.send({
-      from: `Portfolio <${contactEmail}>`,
-      to: email,
-      subject: "Thanks for contacting me 👋",
-      html: `
-        <p>Hi ${name},</p>
-        <p>I’ve received your message and will get back to you soon.</p>
-        <br />
-        <p>— Maisam</p>
       `,
     });
 
     return NextResponse.json({ success: true });
   } catch (error) {
-    console.error("Resend error:", error);
+    console.error("CONTACT API ERROR 👉", error);
+
     return NextResponse.json(
-      { error: "Email sending failed" },
+      {
+        error:
+          error instanceof Error
+            ? error.message
+            : "Unknown server error",
+      },
       { status: 500 }
     );
   }
