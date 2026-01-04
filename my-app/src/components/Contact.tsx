@@ -2,7 +2,7 @@
 
 import { motion, AnimatePresence, useMotionValue, useTransform } from "framer-motion";
 
-import { useState } from "react";
+import { useState, FormEvent, ReactNode } from "react";
 import { FaGithub, FaLinkedinIn, FaEnvelope } from "react-icons/fa";
 
 const socials = [
@@ -23,7 +23,7 @@ const Contact = () => {
   const [toast, setToast] = useState(false);
   const [token, setToken] = useState<string | null>(null);
 
-const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
   e.preventDefault();
   setLoading(true);
 
@@ -182,7 +182,7 @@ export default Contact;
 /* ---------------- MAGNETIC ICON ---------------- */
 
 type MagneticProps = {
-  icon: JSX.Element;
+  icon: ReactNode;
   label: string;
   link: string;
   index: number;
