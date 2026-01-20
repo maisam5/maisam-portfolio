@@ -1,6 +1,6 @@
-"use client"
-import React from "react"
-import { motion } from "framer-motion"
+"use client";
+import React from "react";
+import { motion } from "framer-motion";
 import {
   SiReact,
   SiNextdotjs,
@@ -8,11 +8,11 @@ import {
   SiJavascript,
   SiTailwindcss,
   SiNodedotjs,
-} from "react-icons/si"
+} from "react-icons/si";
 
 interface Skill {
-  name: string
-  icon: React.ReactNode
+  name: string;
+  icon: React.ReactNode;
 }
 
 const skills: Skill[] = [
@@ -22,14 +22,11 @@ const skills: Skill[] = [
   { name: "JavaScript", icon: <SiJavascript /> },
   { name: "Tailwind CSS", icon: <SiTailwindcss /> },
   { name: "Node.js", icon: <SiNodedotjs /> },
-]
+];
 
 const About: React.FC = () => {
   return (
-    <section
-      id="about"
-      className="max-w-7xl mx-auto px-5 py-24 md:py-32"
-    >
+    <section id="about" className="max-w-7xl mx-auto px-5 py-24 md:py-32">
       {/* Heading */}
       <motion.div
         className="text-center mb-16"
@@ -38,13 +35,12 @@ const About: React.FC = () => {
         transition={{ duration: 0.6 }}
         viewport={{ once: true }}
       >
-        <h2 className="text-3xl md:text-4xl font-bold text-white">
-          About Me
-        </h2>
+        <h2 className="text-3xl md:text-4xl font-bold text-white">About Me</h2>
         <p className="mt-4 text-gray-400 max-w-2xl mx-auto">
-          I’m a passionate <span className="text-blue-400">Full Stack Developer</span>{" "}
-          focused on building modern, scalable, and high-performance web
-          applications with clean UI and smooth UX.
+          I’m a passionate{" "}
+          <span className="text-blue-400">Full Stack Developer</span> focused on
+          building modern, scalable, and high-performance web applications with
+          clean UI and smooth UX.
         </p>
       </motion.div>
 
@@ -57,14 +53,15 @@ const About: React.FC = () => {
           transition={{ duration: 0.6 }}
           viewport={{ once: true }}
         >
-          <h3 className="text-xl font-semibold text-white mb-4">
-            Who I Am
-          </h3>
+          <h3 className="text-xl font-semibold text-white mb-4">Who I Am</h3>
           <p className="text-gray-300 leading-relaxed">
-            I’m a self-taught developer with experience building real-world
-            applications using modern technologies like React, Next.js, and
-            TypeScript. I love solving problems and crafting beautiful digital
-            experiences.
+            Full Stack Developer focused on building high-performance web
+            applications. My go-to stack is Next.js, TypeScript, and Tailwind
+            CSS on the frontend, with Node.js/Express on the backend. I’m a big
+            fan of modern, decoupled architectures—specifically using Supabase
+            for scalable backends and Sanity for headless content management. I
+            focus on writing clean, maintainable code and creating smooth user
+            experiences that actually convert.
           </p>
           <p className="mt-4 text-gray-300 leading-relaxed">
             My focus is always on performance, scalability, and clean code.
@@ -100,7 +97,7 @@ const About: React.FC = () => {
         </motion.div>
       </div>
     </section>
-  )
-}
+  );
+};
 
-export default About
+export default About;

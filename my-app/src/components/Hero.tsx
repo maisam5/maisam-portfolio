@@ -72,9 +72,7 @@ const Hero: React.FC = () => {
           animate={{ opacity: 1 }}
           transition={{ delay: 2 }}
         >
-          A self-taught UI/UX designer & developer, crafting meaningful digital
-          products for 2+ years. I blend user needs and business goals
-          seamlessly.
+         I specialize in crafting intuitive interfaces and robust backends, focusing on performance and user experience to drive real-world results.
          
         </motion.p>
 

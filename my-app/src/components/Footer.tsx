@@ -18,17 +18,17 @@ const socials = [
   {
     name: "GitHub",
     icon: <FaGithub size={16} />,
-    link: "https://github.com/yourusername",
+    link: "https://github.com/maisam5",
   },
   {
     name: "Facebook",
     icon: <FaFacebookF size={16} />,
-    link: "https://facebook.com/yourprofile",
+    link: "https://facebook.com/massam.abbas.7",
   },
   {
     name: "Instagram",
     icon: <FaInstagram size={16} />,
-    link: "https://instagram.com/yourprofile",
+    link: "https://instagram.com/maisamabbas7",
   },
 ];
 
