@@ -14,17 +14,17 @@ const projects: Project[] = [
   {
     title: "Portfolio Website",
     image: "/webs.png",
-    link: "https://your-project-1.vercel.app",
+    link: "https://maisam-portfolio.vercel.app/",
   },
   {
-    title: "E-Commerce Store",
-    image: "/ecoom.png",
-    link: "https://your-project-2.vercel.app",
+    title: "Blog platform",
+    image: "/newblog.jpg",
+    link: "https://north-stories-blog.vercel.app/",
   },
   {
-    title: "Admin Dashboard",
-    image: "/landing.png",
-    link: "https://your-project-3.vercel.app",
+    title: "Car-Marketplace",
+    image: "/carmarket.jpg",
+    link: "https://car-marketplace-theta-steel.vercel.app/",
   },
   {
     title: "Landing Page",
