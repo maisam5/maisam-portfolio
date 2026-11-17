@@ -22,14 +22,25 @@ const projects: Project[] = [
     link: "https://north-stories-blog.vercel.app/",
   },
   {
-    title: "Car-Marketplace",
-    image: "/carmarket.jpg",
-    link: "https://car-marketplace-theta-steel.vercel.app/",
+    title: "Ai Powered Car-Marketplace",
+    image: "/carpp.png",
+    link: "https://car-marketplace-neon-theta.vercel.app/",
   },
   {
-    title: "Landing Page",
-    image: "/landing.png",
-    link: "https://your-project-4.vercel.app",
+    title: "Multi Language Tour Company Website",
+    image: "/pk.png",
+    link: "https://dekho-pakistan-zeta.vercel.app/en",
+  },
+  {
+    title: "Direct Venue Booking Platform
+",
+    image: "/mgee.png",
+    link: "https://direct-venue-booking-platform.vercel.app/",
+  },
+  {
+    title: "Nextjs Ecommerce Store",
+    image: "/ecom.png",
+    link: "https://next-js-e-commerce-store-a3d6.vercel.app/",
   },
 ]
 
