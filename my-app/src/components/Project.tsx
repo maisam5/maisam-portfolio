@@ -32,8 +32,7 @@ const projects: Project[] = [
     link: "https://dekho-pakistan-zeta.vercel.app/en",
   },
   {
-    title: "Direct Venue Booking Platform
-",
+    title: "Venue Booking Platform",
     image: "/mgee.png",
     link: "https://direct-venue-booking-platform.vercel.app/",
   },
@@ -41,7 +40,7 @@ const projects: Project[] = [
     title: "Nextjs Ecommerce Store",
     image: "/ecom.png",
     link: "https://next-js-e-commerce-store-a3d6.vercel.app/",
-  },
+  }
 ]
 
 const Project: React.FC = () => {
